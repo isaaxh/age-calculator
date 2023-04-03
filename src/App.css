@@ -21,6 +21,8 @@
   --fw-2: 700;
   --fw-3: 800;
   --fs: italic;
+
+  --border-radius: 8px;
 }
 
 * {
@@ -29,8 +31,12 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 18px;
+}
+
 body {
-  font-size: var(--fs-base);
+  /* font-size: var(--fs-base); */
   font-family: var(--ff-poppins);
 }
 
@@ -51,11 +57,54 @@ hr {
   text-align: center;
   display: flex;
   justify-content: center;
+  align-items: start;
 }
 
 .card {
   background-color: var(--clr-neutral-white);
-  margin-top: 20rem;
-  width: 300px;
-  height: 300px;
+  display: inline-block;
+  margin-top: 6rem;
+  width: min(85%, 400px);
+  /* height: 30rem; */
+  padding: 3rem 2rem;
+}
+
+.input-section {
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 0.8rem;
+  color: var(--clr-neutral-smokey-grey);
+  font-weight: var(--fw-2);
+}
+
+input {
+  width: max(5.5rem);
+  height: max(3.5rem);
+  padding: 12px;
+  font-size: var(--fs-base);
+  font-family: inherit;
+  font-weight: var(--fw-2);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--clr-neutral-light-grey);
+}
+
+/* For WebKit-based browsers */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

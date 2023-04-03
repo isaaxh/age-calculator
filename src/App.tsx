@@ -6,17 +6,17 @@ function App() {
     <div className="background">
       <div className="card">
         <div className="input-section">
-          <div className="day-input">
+          <div className="day input">
             <label htmlFor="day">DAY</label>
-            <input type="text" id="day"/>
+            <input type="number" id="day" />
           </div>
-          <div className="month-input">
+          <div className="month input">
             <label htmlFor="month">MONTH</label>
-            <input type="text" id="month"/>
+            <input type="number" id="month"/>
           </div>
-          <div className="year-input">
+          <div className="year input">
             <label htmlFor="year">YEAR</label>
-            <input type="text" id="year"/>
+            <input type="number" id="year" />
           </div>
         </div>
         <hr />
