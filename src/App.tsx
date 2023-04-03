@@ -1,12 +1,31 @@
-import { useState } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <h1>Hello world</h1>
+    <div className="background">
+      <div className="card">
+        <div className="input-section">
+          <div className="day-input">
+            <label htmlFor="day">DAY</label>
+            <input type="text" id="day"/>
+          </div>
+          <div className="month-input">
+            <label htmlFor="month">MONTH</label>
+            <input type="text" id="month"/>
+          </div>
+          <div className="year-input">
+            <label htmlFor="year">YEAR</label>
+            <input type="text" id="year"/>
+          </div>
+        </div>
+        <hr />
+        <div className="output-section">
+          <div className="year-output">38 years</div>
+          <div className="month-output">3 months</div>
+          <div className="day-output">26 days</div>
+        </div>
+      </div>
     </div>
   )
 }
