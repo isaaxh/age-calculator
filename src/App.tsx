@@ -1,13 +1,58 @@
 import { useState } from 'react';
 import './App.css'
+import moment, { weekdaysShort } from 'moment';
 
 function App() {
-  const [day, setDay] = useState(0);
-  const [month, setMonth] = useState(0);
-  const [year, setYear] = useState(0);
+  const [day, setDay] = useState<number>(0);
+  const [month, setMonth] = useState<number>(0);
+  const [year, setYear] = useState<number>(0);
 
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, fieldType: string) => {
+  const calcAge = (startDateStr: string, endDateStr: string) => {
+    const startDate = new Date(startDateStr);
+    const endDate = new Date(endDateStr);
+
+    let yearDiff = endDate.getFullYear() - startDate.getFullYear();
+    let monthDiff = endDate.getMonth() -  startDate.getMonth();
+    let dayDiff = endDate.getDate() -  startDate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      yearDiff--;
+      if (monthDiff < 0) {
+        monthDiff += 12;
+      }
+
+      if (dayDiff < 0) {
+        dayDiff += new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          0
+        ).getDate();
+      }
+    }
+    
+   
+    return { years: yearDiff, months: monthDiff, days: dayDiff };    
+  }
+
+
+  // const calcAge = (day: number, month: number, year: number) => {
+  //   const MILLISECINAYEAR = 31536000000;
+    
+
+  //   const birthDate = new Date(`${year}-${month}-${day}`)
+  //   const currentDate = new Date();
+  //   const ageInMilliSec = currentDate.valueOf() - birthDate.valueOf();
+    
+  //   const numYears = ageInMilliSec /  MILLISECINAYEAR;
+  //   const years = Math.floor(numYears);
+  //   const numMonths = (numYears - years) * 12;
+  //   const months = Math.floor(numMonths);
+  //   const days = Math.floor((numMonths - months) * 30.44);
+  //   console.log(`${years} years, ${months} months, ${days} days`);
+  // }
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, fieldType: 'day' | 'month' | 'year') => {
     const value = parseInt(event.target.value);
     
     if (fieldType === 'day') {
@@ -15,16 +60,16 @@ function App() {
     } else if (fieldType === 'month') {
       setMonth(value);
     } else {
-      setYear(value)
+      setYear(value);
     }
 
   }
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(`Form submitted with day value: ${day}`);
-    console.log(`Form submitted with month value: ${month}`);
-    console.log(`Form submitted with year value: ${year}`);
+    const usersAge = calcAge('1999-11-01', '2023-04-06');
+
+    console.log(`${usersAge.years} years, ${usersAge.months} months, ${usersAge.days} days`);
   }
 
   return (
@@ -37,7 +82,6 @@ function App() {
               type="number" 
               id="day" 
               onChange={(event) => handleInputChange(event, 'day')} 
-              // value={day ?? ''} 
             />
           </div>
           <div className="month input">
@@ -61,9 +105,9 @@ function App() {
         <button>Calculate</button>
         <hr />
         <div className="output-section">
-          <div className="year-output">38 years</div>
-          <div className="month-output">3 months</div>
-          <div className="day-output">26 days</div>
+          <div className="year-output">{year} years</div>
+          <div className="month-output">{month} months</div>
+          <div className="day-output">{day} days</div>
         </div>
       </form>
     </div>
