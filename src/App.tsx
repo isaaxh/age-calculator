@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import './App.css'
-import moment, { weekdaysShort } from 'moment';
+
+interface User {
+  years?: number;
+  months?: number;
+  days?: number;
+}
 
 function App() {
   const [day, setDay] = useState<number>(0);
   const [month, setMonth] = useState<number>(0);
   const [year, setYear] = useState<number>(0);
+  const [user, setUser] = useState<User>();
 
 
   const calcAge = (startDateStr: string, endDateStr: string) => {
@@ -35,23 +41,6 @@ function App() {
     return { years: yearDiff, months: monthDiff, days: dayDiff };    
   }
 
-
-  // const calcAge = (day: number, month: number, year: number) => {
-  //   const MILLISECINAYEAR = 31536000000;
-    
-
-  //   const birthDate = new Date(`${year}-${month}-${day}`)
-  //   const currentDate = new Date();
-  //   const ageInMilliSec = currentDate.valueOf() - birthDate.valueOf();
-    
-  //   const numYears = ageInMilliSec /  MILLISECINAYEAR;
-  //   const years = Math.floor(numYears);
-  //   const numMonths = (numYears - years) * 12;
-  //   const months = Math.floor(numMonths);
-  //   const days = Math.floor((numMonths - months) * 30.44);
-  //   console.log(`${years} years, ${months} months, ${days} days`);
-  // }
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, fieldType: 'day' | 'month' | 'year') => {
     const value = parseInt(event.target.value);
     
@@ -67,9 +56,13 @@ function App() {
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const usersAge = calcAge('1999-11-01', '2023-04-06');
 
-    console.log(`${usersAge.years} years, ${usersAge.months} months, ${usersAge.days} days`);
+    const currentDate = new Date(); 
+    const currentDateStr = currentDate.toISOString().slice(0, 10);
+
+    const age = calcAge('1999-11-01', currentDateStr);
+    console.log(`${age.years} years, ${age.months} months, ${age.days} days`);
+    setUser(age);
   }
 
   return (
@@ -105,9 +98,9 @@ function App() {
         <button>Calculate</button>
         <hr />
         <div className="output-section">
-          <div className="year-output">{year} years</div>
-          <div className="month-output">{month} months</div>
-          <div className="day-output">{day} days</div>
+          <div className="year-output">{user?.years} years</div>
+          <div className="month-output">{user?.months} months</div>
+          <div className="day-output">{user?.days} days</div>
         </div>
       </form>
     </div>
