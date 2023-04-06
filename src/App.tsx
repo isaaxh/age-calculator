@@ -83,30 +83,38 @@ function App() {
       setIsError(true);
       return;
     }
-
+    
     if (inputMonth < 1 || inputMonth > 12) {
       setErrorMonth('Must be a valid month');
       setIsError(true);
       return;
     }
-
-    if (inputDay < 0 || inputDay > 31) {
+    
+    let daysInMonth;
+    
+    switch(inputMonth) {
+      case 2:
+        daysInMonth = isCurrentLeapYear ? 29 : 28;
+        break;
+      case 4:
+      case 6:
+      case 9:
+      case 11:
+        daysInMonth = 30;
+        break;
+      default:
+        daysInMonth = 31;
+        break;
+    }
+    
+    if (inputDay < 1 || inputDay > daysInMonth) {
       setErrorDay('Must be a valid day')
       setIsError(true)
       return;
     }
 
-    if (inputMonth === 2) {
-      const daysInFebruary = isCurrentLeapYear ? 29 : 28;
-      if (inputDay > daysInFebruary) {
-        setErrorDay('Must be a valid day');
-        setIsError(true);
-        return;
-      }
-    }
-
     const age = calcAge(`${inputYear}-${inputMonth}-${inputDay}`, currentDateStr);
-    console.log(`${age.years} years, ${age.months} months, ${age.days} days`);
+    // console.log(`${age.years} years, ${age.months} months, ${age.days} days`);
     setUser(age);
   }
 
@@ -115,10 +123,10 @@ function App() {
       <form className="card" onSubmit={handleFormSubmit}>
         <div className="input-section">
           <div className="day input">
-            <label className="error" htmlFor="day">DAY</label>
+            <label className="" htmlFor="day">DAY</label>
             <input 
               type="number" 
-              className='error-field'
+              // className='error-field'
               id="day" 
               onChange={(event) => handleInputChange(event, 'day')} 
               placeholder='DD'
