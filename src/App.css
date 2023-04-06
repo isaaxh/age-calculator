@@ -20,7 +20,7 @@
   --fw-1: 400;
   --fw-2: 700;
   --fw-3: 800;
-  --fs: italic;
+  --f-style: italic;
 
   --border-radius: 8px;
 }
@@ -90,7 +90,7 @@ input {
   width: max(5.5rem);
   height: max(3.5rem);
   padding: 12px;
-  font-size: var(--fs-base);
+  font-size: 26px;
   font-family: inherit;
   font-weight: var(--fw-2);
   border-radius: var(--border-radius);
@@ -112,5 +112,25 @@ input[type=number] {
 .error {
   font-size: 12px;
   color: var(--clr-primary-light-red);
-  font-style: italic;
+  font-style: var(--f-style);
+}
+
+.error-field {
+  border: 1px solid var(--clr-primary-light-red);
+}
+
+.output-section {
+  text-align: left;
+}
+
+.output {
+  font-size: 60px;
+  font-family: var(--ff-poppins);
+  font-weight: var(--fw-3);
+  font-style: var(--f-style);
+}
+
+.output-value {
+  color: var(--clr-primary-purple);
+
 }
