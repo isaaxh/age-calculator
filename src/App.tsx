@@ -12,6 +12,9 @@ function App() {
   const [inputMonth, setInputMonth] = useState<number>(0);
   const [inputYear, setInputYear] = useState<number>(0);
   const [user, setUser] = useState<User>();
+  const [errorYear, setErrorYear] =  useState<string>();
+  const [errorMonth, setErrorMonth] =  useState<string>();
+  const [errorDay, setErrorDay] =  useState<string>();
 
 
   const calcAge = (startDateStr: string, endDateStr: string) => {
@@ -56,9 +59,16 @@ function App() {
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setErrorYear('')
     const currentDate = new Date(); 
     const currentDateStr = currentDate.toISOString().slice(0, 10);
+
+    const currentYear = currentDate.getFullYear();
+
+    if (inputYear > currentYear) {
+      setErrorYear('Must be in the past');
+      return;
+    }
 
     const age = calcAge(`${inputYear}-${inputMonth}-${inputDay}`, currentDateStr);
     console.log(`${age.years} years, ${age.months} months, ${age.days} days`);
@@ -76,6 +86,7 @@ function App() {
               id="day" 
               onChange={(event) => handleInputChange(event, 'day')} 
             />
+            <p className="error">{errorDay}</p>
           </div>
           <div className="month input">
             <label htmlFor="month">MONTH</label>
@@ -84,6 +95,7 @@ function App() {
               id="month"
               onChange={(event) => handleInputChange(event, 'month')}
               />
+              <p className="error">{errorMonth}</p>
           </div>
           <div className="year input">
             <label htmlFor="year">YEAR</label>
@@ -92,6 +104,7 @@ function App() {
               id="year"
               onChange={(event) => handleInputChange(event, 'year')}
               />
+              <p className="error">{errorYear}</p>
           </div>
         </div>
         <hr />
