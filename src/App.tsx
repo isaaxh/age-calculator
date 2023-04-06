@@ -8,9 +8,9 @@ interface User {
 }
 
 function App() {
-  const [day, setDay] = useState<number>(0);
-  const [month, setMonth] = useState<number>(0);
-  const [year, setYear] = useState<number>(0);
+  const [inputDay, setInputDay] = useState<number>(0);
+  const [inputMonth, setInputMonth] = useState<number>(0);
+  const [inputYear, setInputYear] = useState<number>(0);
   const [user, setUser] = useState<User>();
 
 
@@ -45,11 +45,11 @@ function App() {
     const value = parseInt(event.target.value);
     
     if (fieldType === 'day') {
-      setDay(value);
+      setInputDay(value);
     } else if (fieldType === 'month') {
-      setMonth(value);
+      setInputMonth(value);
     } else {
-      setYear(value);
+      setInputYear(value);
     }
 
   }
@@ -60,7 +60,7 @@ function App() {
     const currentDate = new Date(); 
     const currentDateStr = currentDate.toISOString().slice(0, 10);
 
-    const age = calcAge('1999-11-01', currentDateStr);
+    const age = calcAge(`${inputYear}-${inputMonth}-${inputDay}`, currentDateStr);
     console.log(`${age.years} years, ${age.months} months, ${age.days} days`);
     setUser(age);
   }
