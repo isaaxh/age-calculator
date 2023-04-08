@@ -138,7 +138,6 @@ function App() {
             <label className="" htmlFor="day">DAY</label>
             <input 
               type="number" 
-              // className='error-field'
               id="day" 
               onChange={(event) => handleInputChange(event, 'day')} 
               placeholder='DD'
@@ -174,9 +173,9 @@ function App() {
           <hr className='hr-2' />
         </div>
         <div className="output-section">
-          <div className="output"><span className='year output-value'>{user?.years}</span> years</div>
-          <div className="output"><span className='month output-value'>{user?.months}</span> months</div>
-          <div className="output"><span className='day output-value'>{user?.days}</span> days</div>
+          <div className="output"><span className='year output-value'>{user ? user?.years : "- -"}</span> years</div>
+          <div className="output"><span className='month output-value'>{user ? user?.months: "- -"}</span> months</div>
+          <div className="output"><span className='day output-value'>{user ? user?.days : "- -"}</span> days</div>
         </div>
       </form>
     </div>
