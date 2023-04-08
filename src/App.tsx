@@ -164,7 +164,7 @@ function App() {
         <div className='btn-container'>
           <hr />
           <button className='btn-calc'>
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="40" viewBox="0 0 46 44"><g fill="none" stroke="#FFF" strokeWidth="3"><path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44"/></g></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="48" viewBox="0 0 46 44"><g fill="none" stroke="#FFF" strokeWidth="3"><path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44"/></g></svg>
           </button>
           <hr className='hr-2' />
         </div>
