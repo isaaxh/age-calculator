@@ -71,9 +71,9 @@ hr {
   overflow: hidden;
 }
 
-@media (min-width: 375px) {
+@media (min-width: 376px) {
   .card {
-    width: 600px;
+    width: min(600px, 90%);
   }
 
   .hr-2 {
@@ -115,7 +115,11 @@ input {
   border: 1px solid var(--clr-neutral-light-grey);
 }
 
-@media (min-width: 376px) {
+input:focus {
+  outline: 1px solid var(--clr-primary-purple);
+}
+
+@media (min-width: 375px) {
   input {
     font-size: 1.3em;
   }

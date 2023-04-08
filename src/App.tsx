@@ -85,9 +85,14 @@ function App() {
     const currentYear = currentDate.getFullYear();
     const isCurrentLeapYear = isLeapYear(currentYear);
 
-    if (inputYear > currentYear) {
-      setErrorYear('Must be in the past');
-      setIsError(true);
+    if (inputDay === 0) {
+      setErrorDay('Must be a valid day')
+      return;
+    } else if (inputMonth === 0) {
+      setErrorMonth('Must be a valid month')
+      return;
+    } else if (inputYear === 0) {
+      setErrorYear('Must be a valid year')
       return;
     }
     
@@ -96,6 +101,13 @@ function App() {
       setIsError(true);
       return;
     }
+
+    if (inputYear > currentYear) {
+      setErrorYear('Must be in the past');
+      setIsError(true);
+      return;
+    }
+    
     
     let daysInMonth;
     
