@@ -35,41 +35,11 @@ function App() {
     const currentDate = new Date(currentDateStr);
 
     const miliSecDiff = currentDate.getTime() - birthDate.getTime();
-
     const days = miliSecDiff / 86400000;
     
     const dateDiff = daysToYMD(days);
     
-    console.log(`${dateDiff.years} years old, ${dateDiff.months} months old, ${dateDiff.days} days old`);
-
-    let yearDiff = currentDate.getFullYear() - birthDate.getFullYear();
-    let monthDiff = currentDate.getMonth() -  birthDate.getMonth();
-    let dayDiff = currentDate.getDate() -  birthDate.getDate();
-    
-    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-      yearDiff--;
-      if (monthDiff < 0) {
-        monthDiff += 12;
-      }
-      
-      if (dayDiff < 0) {
-        monthDiff =  monthDiff - 1;        
-        dayDiff += new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          0
-          ).getDate();
-      }
-    }
-
-    if (dayDiff < 0) {
-      monthDiff--;
-      console.log('inside dayDiff < 1');
-      let days = 31 + dayDiff; 
-      console.log(days);  
-    }
-    
-    return { years: yearDiff, months: monthDiff, days: dayDiff };    
+    return { years: dateDiff.years, months: dateDiff.months, days: dateDiff.days };    
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, fieldType: 'day' | 'month' | 'year') => {
