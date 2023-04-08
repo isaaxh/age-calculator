@@ -25,23 +25,30 @@ function App() {
     let yearDiff = endDate.getFullYear() - startDate.getFullYear();
     let monthDiff = endDate.getMonth() -  startDate.getMonth();
     let dayDiff = endDate.getDate() -  startDate.getDate();
-
+    
     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
       yearDiff--;
       if (monthDiff < 0) {
         monthDiff += 12;
       }
-
+      
       if (dayDiff < 0) {
+        monthDiff =  monthDiff - 1;        
         dayDiff += new Date(
           endDate.getFullYear(),
           endDate.getMonth(),
           0
-        ).getDate();
+          ).getDate();
       }
     }
+
+    if (dayDiff < 0) {
+      monthDiff--;
+      let days = 30 + dayDiff; 
+      console.log(days);
+      
+    }
     
-   
     return { years: yearDiff, months: monthDiff, days: dayDiff };    
   }
 
@@ -122,7 +129,7 @@ function App() {
     <div className="background">
       <form className="card" onSubmit={handleFormSubmit}>
         <div className="input-section">
-          <div className="day input">
+          <div className="day input-container">
             <label className="" htmlFor="day">DAY</label>
             <input 
               type="number" 
@@ -133,7 +140,7 @@ function App() {
             />
             <p className="error">{errorDay}</p>
           </div>
-          <div className="month input">
+          <div className="month input-container">
             <label htmlFor="month">MONTH</label>
             <input 
               type="number" 
@@ -143,7 +150,7 @@ function App() {
               />
               <p className="error">{errorMonth}</p>
           </div>
-          <div className="year input">
+          <div className="year input-container">
             <label htmlFor="year">YEAR</label>
             <input 
               type="number" 
@@ -154,9 +161,13 @@ function App() {
               <p className="error">{errorYear}</p>
           </div>
         </div>
-        <hr />
-        <button>Calculate</button>
-        <hr />
+        <div className='btn-container'>
+          <hr />
+          <button className='btn-calc'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="40" viewBox="0 0 46 44"><g fill="none" stroke="#FFF" strokeWidth="3"><path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44"/></g></svg>
+          </button>
+          <hr className='hr-2' />
+        </div>
         <div className="output-section">
           <div className="output"><span className='year output-value'>{user?.years}</span> years</div>
           <div className="output"><span className='month output-value'>{user?.months}</span> months</div>

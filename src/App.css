@@ -43,6 +43,7 @@ body {
 hr {
   display: block;
   height: 1px;
+  width: 100%;
   border: 0;
   border-top: 1px solid #ccc;
   margin: 1em 0;
@@ -64,18 +65,21 @@ hr {
   background-color: var(--clr-neutral-white);
   display: inline-block;
   margin-top: 6rem;
-  width: min(85%, 400px);
-  /* height: 30rem; */
+  width: min(90%, 450px);
   padding: 3rem 2rem;
+  border-radius: 12px 12px 25% 12px;
+  overflow: hidden;
 }
+
 
 .input-section {
   display: flex;
   justify-content: space-between;
   text-align: left;
+  gap: 1rem;
 }
 
-.input {
+.input-container {
   display: flex;
   flex-direction: column;
 }
@@ -87,10 +91,10 @@ label {
 }
 
 input {
-  width: max(5.5rem);
-  height: max(3.5rem);
-  padding: 12px;
-  font-size: 26px;
+  width: 100%; 
+  max-height: 3rem;
+  padding: .6rem;
+  font-size: 1.2em;
   font-family: inherit;
   font-weight: var(--fw-2);
   border-radius: var(--border-radius);
@@ -121,6 +125,7 @@ input[type=number] {
 
 .output-section {
   text-align: left;
+  line-height: 1;
 }
 
 .output {
@@ -128,9 +133,32 @@ input[type=number] {
   font-family: var(--ff-poppins);
   font-weight: var(--fw-3);
   font-style: var(--f-style);
+  letter-spacing: -3px;
 }
 
 .output-value {
   color: var(--clr-primary-purple);
+}
 
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.2rem 0;
+}
+
+.btn-calc {
+  background-color: var(--clr-primary-purple);
+  border-radius: 50%;
+  border: none; 
+}
+
+.btn-calc:hover {
+  background-color: var(--clr-neutral-off-black);
+}
+
+@media (max-width: var(--screen-mobile)) {
+  .hr-2 {
+    display: none;
+  }
 }
