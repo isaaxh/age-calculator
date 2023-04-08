@@ -20,7 +20,7 @@ function App() {
   const [errorMonth, setErrorMonth] =  useState<string>();
   const [errorDay, setErrorDay] =  useState<string>();
   const [isError, setIsError] = useState<boolean>();
-
+  
 
   function daysToYMD(days: number) {
     const years = Math.floor(days / 365.25);
@@ -42,6 +42,16 @@ function App() {
     return { years: dateDiff.years, months: dateDiff.months, days: dateDiff.days };    
   }
 
+
+  const isLeapYear= (year: number) => {
+    if (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, fieldType: 'day' | 'month' | 'year') => {
     const value = parseInt(event.target.value);
     
@@ -52,82 +62,72 @@ function App() {
     } else {
       setInputYear(value);
     }
-
   }
-
-  const isLeapYear= (year: number) => {
-    if (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) {
-      return true;
-    } else {
-      return false;
+    
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsError(false);
+    setErrorYear('');
+    setErrorMonth('');
+    setErrorDay('');
+    const currentDate = new Date(); 
+    const currentDateStr = currentDate.toISOString().slice(0, 10);
+    const currentYear = currentDate.getFullYear();
+    const isCurrentLeapYear = isLeapYear(currentYear);
+    
+    // handle error
+    
+    if (inputDay === 0) {
+      setErrorDay('Must be a valid date')
+      setIsError(true);
     }
-  }
-  
-    
-    const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      setIsError(false);
-      setErrorYear('');
-      setErrorMonth('');
-      setErrorDay('');
-      const currentDate = new Date(); 
-      const currentDateStr = currentDate.toISOString().slice(0, 10);
-      const currentYear = currentDate.getFullYear();
-      const isCurrentLeapYear = isLeapYear(currentYear);
-      
-      // handle error
-      
-      if (inputDay === 0) {
-        setErrorDay('Must be a valid date')
-        setIsError(true);
-      }
-      if (inputMonth === 0) {
-        setErrorMonth('Must be a valid month')
-        setIsError(true);
-      } 
-      if (inputYear === 0) {
-        setErrorYear('Must be a valid year')
-        setIsError(true);
-      }
-  
-      
-      if (inputMonth < 1 || inputMonth > 12) {
-        setErrorMonth('Must be a valid month');
-        setIsError(true);
-        return;
-      }
-        
-      if (inputYear > currentYear) {
-        setErrorYear('Must be in the past');
-        setIsError(true);
-        return;
-      }
-      
-      let daysInMonth;
-      
-      switch(inputMonth) {
-        case 2:
-          daysInMonth = isCurrentLeapYear ? 29 : 28;
-          break;
-        case 4:
-        case 6:
-        case 9:
-        case 11:
-          daysInMonth = 30;
-          break;
-        default:
-          daysInMonth = 31;
-          break;
-      }
-    
-      if (inputDay < 1 || inputDay > daysInMonth) {
-        setErrorDay('Must be a valid date')
-        setIsError(true)
-        return;
-      }
+    if (inputMonth === 0) {
+      setErrorMonth('Must be a valid month')
+      setIsError(true);
+    } 
+    if (inputYear === 0) {
+      setErrorYear('Must be a valid year')
+      setIsError(true);
+    }
 
-      const age = calcAge(`${inputYear}-${inputMonth}-${inputDay}`, currentDateStr);
-      setUser(age);
+    
+    if (inputMonth < 1 || inputMonth > 12) {
+      setErrorMonth('Must be a valid month');
+      setIsError(true);
+      return;
+    }
+      
+    if (inputYear > currentYear) {
+      setErrorYear('Must be in the past');
+      setIsError(true);
+      return;
+    }
+    
+    let daysInMonth;
+    
+    switch(inputMonth) {
+      case 2:
+        daysInMonth = isCurrentLeapYear ? 29 : 28;
+        break;
+      case 4:
+      case 6:
+      case 9:
+      case 11:
+        daysInMonth = 30;
+        break;
+      default:
+        daysInMonth = 31;
+        break;
+    }
+  
+    if (inputDay < 1 || inputDay > daysInMonth) {
+      setErrorDay('Must be a valid date')
+      setIsError(true)
+      return;
+    }
+
+    const age = calcAge(`${inputYear}-${inputMonth}-${inputDay}`, currentDateStr);
+    setUser(age);
   }
 
   return (
@@ -135,30 +135,36 @@ function App() {
       <form className="card" onSubmit={handleFormSubmit}>
         <div className="input-section">
           <div className="day input-container">
-            <label className="" htmlFor="day">DAY</label>
+            <label className={isError ? 'label-error' : ''} 
+              htmlFor="day">DAY</label>
             <input 
               type="number" 
-              id="day" 
+              id="day"
+              className={isError ? 'input-error' : ''} 
               onChange={(event) => handleInputChange(event, 'day')} 
               placeholder='DD'
             />
             <p className="error">{errorDay}</p>
           </div>
           <div className="month input-container">
-            <label htmlFor="month">MONTH</label>
+            <label className={isError ? 'label-error' : ''} 
+              htmlFor="month">MONTH</label>
             <input 
               type="number" 
               id="month"
+              className={isError ? 'input-error' : ''}
               onChange={(event) => handleInputChange(event, 'month')}
               placeholder='MM'
               />
               <p className="error">{errorMonth}</p>
           </div>
           <div className="year input-container">
-            <label htmlFor="year">YEAR</label>
+            <label className={isError ? 'label-error' : ''} 
+              htmlFor="year">YEAR</label>
             <input 
               type="number" 
               id="year"
+              className={isError ? 'input-error' : ''}
               onChange={(event) => handleInputChange(event, 'year')}
               placeholder='YYYY'
               />

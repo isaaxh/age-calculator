@@ -143,8 +143,12 @@ input[type=number] {
   font-style: var(--f-style);
 }
 
-.error-field {
-  border: 1px solid var(--clr-primary-light-red);
+.input-error {
+  outline: 1px solid var(--clr-primary-light-red);
+}
+
+.label-error {
+  color: var(--clr-primary-light-red);
 }
 
 .output-section {
