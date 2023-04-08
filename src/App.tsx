@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css'
 
 interface User {
   years?: number;
   months?: number;
   days?: number;
+}
+
+interface componentTyping {
+  handleError: (currentYear: number) => void;
 }
 
 function App() {
@@ -18,13 +22,29 @@ function App() {
   const [isError, setIsError] = useState<boolean>();
 
 
-  const calcAge = (startDateStr: string, endDateStr: string) => {
-    const startDate = new Date(startDateStr);
-    const endDate = new Date(endDateStr);
+  function daysToYMD(days: number) {
+    const years = Math.floor(days / 365.25);
+    const months = Math.floor((days - years * 365.25) / 30.44);
+    const remainingDays = Math.floor(days - years * 365.25 - months * 30.44);
+  
+    return {years, months, days: remainingDays};
+  }
 
-    let yearDiff = endDate.getFullYear() - startDate.getFullYear();
-    let monthDiff = endDate.getMonth() -  startDate.getMonth();
-    let dayDiff = endDate.getDate() -  startDate.getDate();
+  const calcAge = (birthDateStr: string, currentDateStr: string) => {
+    const birthDate = new Date(birthDateStr);
+    const currentDate = new Date(currentDateStr);
+
+    const miliSecDiff = currentDate.getTime() - birthDate.getTime();
+
+    const days = miliSecDiff / 86400000;
+    
+    const dateDiff = daysToYMD(days);
+    
+    console.log(`${dateDiff.years} years old, ${dateDiff.months} months old, ${dateDiff.days} days old`);
+
+    let yearDiff = currentDate.getFullYear() - birthDate.getFullYear();
+    let monthDiff = currentDate.getMonth() -  birthDate.getMonth();
+    let dayDiff = currentDate.getDate() -  birthDate.getDate();
     
     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
       yearDiff--;
@@ -35,8 +55,8 @@ function App() {
       if (dayDiff < 0) {
         monthDiff =  monthDiff - 1;        
         dayDiff += new Date(
-          endDate.getFullYear(),
-          endDate.getMonth(),
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
           0
           ).getDate();
       }
@@ -44,9 +64,9 @@ function App() {
 
     if (dayDiff < 0) {
       monthDiff--;
-      let days = 30 + dayDiff; 
-      console.log(days);
-      
+      console.log('inside dayDiff < 1');
+      let days = 31 + dayDiff; 
+      console.log(days);  
     }
     
     return { years: yearDiff, months: monthDiff, days: dayDiff };    
@@ -67,74 +87,77 @@ function App() {
 
   const isLeapYear= (year: number) => {
     if (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) {
-      console.log(`${year} is leap year`);
       return true;
     } else {
       return false;
     }
   }
+  
+    
+    const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setIsError(false);
+      setErrorYear('');
+      setErrorMonth('');
+      setErrorDay('');
+      const currentDate = new Date(); 
+      const currentDateStr = currentDate.toISOString().slice(0, 10);
+      const currentYear = currentDate.getFullYear();
+      const isCurrentLeapYear = isLeapYear(currentYear);
+      
+      // handle error
+      
+      if (inputDay === 0) {
+        setErrorDay('Must be a valid date')
+        setIsError(true);
+      }
+      if (inputMonth === 0) {
+        setErrorMonth('Must be a valid month')
+        setIsError(true);
+      } 
+      if (inputYear === 0) {
+        setErrorYear('Must be a valid year')
+        setIsError(true);
+      }
+  
+      
+      if (inputMonth < 1 || inputMonth > 12) {
+        setErrorMonth('Must be a valid month');
+        setIsError(true);
+        return;
+      }
+        
+      if (inputYear > currentYear) {
+        setErrorYear('Must be in the past');
+        setIsError(true);
+        return;
+      }
+      
+      let daysInMonth;
+      
+      switch(inputMonth) {
+        case 2:
+          daysInMonth = isCurrentLeapYear ? 29 : 28;
+          break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+          daysInMonth = 30;
+          break;
+        default:
+          daysInMonth = 31;
+          break;
+      }
+    
+      if (inputDay < 1 || inputDay > daysInMonth) {
+        setErrorDay('Must be a valid date')
+        setIsError(true)
+        return;
+      }
 
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsError(false);
-    setErrorYear('');
-    setErrorMonth('');
-    setErrorDay('');
-    const currentDate = new Date(); 
-    const currentDateStr = currentDate.toISOString().slice(0, 10);
-    const currentYear = currentDate.getFullYear();
-    const isCurrentLeapYear = isLeapYear(currentYear);
-
-    if (inputDay === 0) {
-      setErrorDay('Must be a valid day')
-      return;
-    } else if (inputMonth === 0) {
-      setErrorMonth('Must be a valid month')
-      return;
-    } else if (inputYear === 0) {
-      setErrorYear('Must be a valid year')
-      return;
-    }
-    
-    if (inputMonth < 1 || inputMonth > 12) {
-      setErrorMonth('Must be a valid month');
-      setIsError(true);
-      return;
-    }
-
-    if (inputYear > currentYear) {
-      setErrorYear('Must be in the past');
-      setIsError(true);
-      return;
-    }
-    
-    
-    let daysInMonth;
-    
-    switch(inputMonth) {
-      case 2:
-        daysInMonth = isCurrentLeapYear ? 29 : 28;
-        break;
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        daysInMonth = 30;
-        break;
-      default:
-        daysInMonth = 31;
-        break;
-    }
-    
-    if (inputDay < 1 || inputDay > daysInMonth) {
-      setErrorDay('Must be a valid day')
-      setIsError(true)
-      return;
-    }
-
-    const age = calcAge(`${inputYear}-${inputMonth}-${inputDay}`, currentDateStr);
-    // console.log(`${age.years} years, ${age.months} months, ${age.days} days`);
-    setUser(age);
+      const age = calcAge(`${inputYear}-${inputMonth}-${inputDay}`, currentDateStr);
+      setUser(age);
   }
 
   return (
