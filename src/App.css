@@ -167,7 +167,7 @@ input[type=number] {
 .output-section {
   text-align: left;
   line-height: 1;
-  /* color: var(--clr-neutral-off-black) */
+  color: var(--clr-neutral-off-black)
 }
 
 .output {
