@@ -117,7 +117,7 @@ label {
 }
 
 input {
-  background-color: var(--clr-neutral-off-white);
+  background-color: pink;
   width: 100%; 
   max-height: 3rem;
   padding: 0.6rem;
