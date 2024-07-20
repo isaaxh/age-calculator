@@ -36,8 +36,6 @@ npm run dev
 
 ## Demonstration
 
-Home
-
 [Screencast from 07-20-2024 09:10:32 PM.webm](https://github.com/user-attachments/assets/1ba84286-a3fd-4ae6-93e7-480e359e17e8)
 
 
