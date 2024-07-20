@@ -7,7 +7,6 @@ This is a web application that allows you to find your current age with date val
 ## Requirements
 
 1. npm (node package manager)
-2. 
 
 ## How to run the App?
 
