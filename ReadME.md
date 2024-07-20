@@ -8,7 +8,7 @@ This is a web application that allows you to find your current age with date val
 
 1. npm (node package manager)
 
-## How to run the App?
+## How to run the App
 
 1. Clone this repo using:
 
